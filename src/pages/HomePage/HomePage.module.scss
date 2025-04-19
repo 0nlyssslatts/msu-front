@@ -1,0 +1,22 @@
+@use "styles/mixin.scss";
+
+.home {
+    margin-top: 1rem;
+    &__header {
+        text-align: center;
+        h1 {
+            @extend .bold28;
+        }
+    }
+    &__schedule {
+        position: relative;
+        &__buttons {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+    }
+}

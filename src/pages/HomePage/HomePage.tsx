@@ -1,45 +1,63 @@
 import Calendar from "@components/Calendar";
-import { useLayoutEffect } from "react";
-
+import { useRef, useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
 import { getSchedule } from "@actions/scheduleAction";
-import Loader from "@components/Loader";
+import style from "./HomePage.module.scss";
+import FullCalendar from "@fullcalendar/react";
+import { format } from "date-fns";
+import Button from "@components/ui/Button";
 
 const HomePage = () => {
+    const calendar = useRef<FullCalendar | null>(null);
     const dispatch = useDispatch<AppDispatch>();
-    const { loading, items } = useSelector(
-        (state: RootState) => state.schedule
-    );
-    useLayoutEffect(() => {
-        const response = getSchedule({
-            groupId: 1,
-            start: "2025-04-19",
-            end: "2025-04-20",
-        });
-        dispatch(response);
-    }, []);
+    const { items } = useSelector((state: RootState) => state.schedule);
 
-    if (loading) return <Loader />;
+    const events = useMemo(
+        () =>
+            items.map((item) => ({
+                title: item.name,
+                start: item.start_ts,
+                end: item.end_ts,
+            })),
+        [items]
+    );
+
+    const handleDatesChange = useCallback(
+        (start: Date, end: Date) => {
+            dispatch(
+                getSchedule({
+                    groupId: 1,
+                    start: format(start, "yyyy-MM-dd"),
+                    end: format(end, "yyyy-MM-dd"),
+                })
+            );
+        },
+        [dispatch]
+    );
+
+    const nextDayHandler = () => calendar.current?.getApi().next();
+
+    const prevDayHandler = () => calendar.current?.getApi().prev();
 
     return (
-        <section>
-            <div>
+        <section className={style.home}>
+            <div className={style.home__header}>
                 <h1>Главная</h1>
             </div>
-            <div>
+            <div className={style.home__schedule}>
+                <div className={style.home__schedule__buttons}>
+                    <Button onClick={prevDayHandler}>{"<"}</Button>
+                    <Button onClick={nextDayHandler}>{">"}</Button>
+                </div>
                 <Calendar
-                    events={items.map((item) => {
-                        return {
-                            title: item.name,
-                            start: item.start_ts,
-                            end: item.end_ts,
-                        };
-                    })}
+                    ref={calendar}
+                    events={events}
+                    onDatesChange={handleDatesChange}
                 />
             </div>
         </section>
     );
-}; // 999
+};
 
 export default HomePage;
