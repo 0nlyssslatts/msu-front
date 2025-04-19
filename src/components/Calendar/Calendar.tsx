@@ -32,11 +32,8 @@ const Calendar = () => {
                 center: "title",
                 left: "prev",
             }}
-            dragScroll={true}
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
+            slotMinTime="08:00:00" // Минимальное время
+            slotMaxTime="23:59:00" // Максимальное время
         />
     );
 };
