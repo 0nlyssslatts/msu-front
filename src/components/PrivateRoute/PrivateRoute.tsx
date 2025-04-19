@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import Loader from "@components/Loader";
 import { routerUrls } from "@config/routerUrls";
+import SetGroup from "@components/SetGroup";
 
 import { AppDispatch, RootState } from "../../store";
 import { getCurrentUser, refresh } from "../../actions/authActions";
@@ -48,7 +49,19 @@ const PrivateRoute: React.FC = () => {
         );
     }
 
-    return <Outlet />;
+    if (user && !user.group_id && !user.confirmed) {
+        <SetGroup/>
+    }
+
+    if (user && user.group_id && !user.group_id) {
+        <div>
+            <p>Дождись подтверждения старосты</p>
+        </div>
+    }
+
+    if (user && user.group_id && user.confirmed) {
+        return <Outlet />;
+    }    
 };
 
 export default PrivateRoute;

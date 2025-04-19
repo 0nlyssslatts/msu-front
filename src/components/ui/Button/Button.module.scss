@@ -3,9 +3,10 @@
 
 .button {
   height: 52px;
-  background: brown;
+  background: $purple-main;
   display: flex;
   align-items: center;
+  justify-content: center;
   text-align: center;
   cursor: pointer;
   border: none;
@@ -22,11 +23,11 @@
 
 
   &:hover:not(:disabled):not(.loading) {
-    background-color: #0E538C;
+    background-color: $brand-hower;
   }
 
   &:active:not(:disabled) {
-    background-color: #FFBE55;
+    background-color: $brand-active;
   }
 
   &.disabled {

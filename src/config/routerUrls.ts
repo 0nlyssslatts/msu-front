@@ -10,4 +10,7 @@ export const routerUrls = {
     schedule: {
         mask: "/schedule",
     },
+  confirm_users: {
+    mask: '/confirm_users'
+  }
 };
