@@ -14,7 +14,7 @@ const initialUsers = [
 const UsersGroupPage = () => {
   const [users, setUsers] = useState(initialUsers);
 
-  const handleClick = (id) => {
+  const handleClick = (id: number) => {
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
         user.id === id ? { ...user, confirmed: true } : user

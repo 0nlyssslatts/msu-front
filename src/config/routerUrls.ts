@@ -1,5 +1,3 @@
-import { group } from "console";
-
 export const routerUrls = {
   login: {
     mask: '/login',
