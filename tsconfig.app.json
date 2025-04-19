@@ -9,11 +9,12 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"],
-      "@assets/*": ["assets/*"],
-      "@config/*": ["config/*"],
-      "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"],
-      "@api/*": ["api/*"],
+      "@assets/*": ["src/assets/*"],
+      "@config/*": ["src/config/*"],
+      "styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"],
+      "@api/*": ["src/api/*"],
+      "@pages/*": ["src/api/*"]
     },
 
     /* Bundler mode */
@@ -31,5 +32,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", ".eslintrc.js"]
 }

@@ -1,0 +1,36 @@
+@use './variables.scss';
+
+.bold28{
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.medium20{
+    font-weight: 500;
+    font-size: 1.25rem
+}
+
+.regular16{
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.regular12{
+    font-weight: 400;
+    font-size: .75rem;
+}
+
+.purple-text{
+    color: variables.$purple-main;
+}
+
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin center-horizontal {
+    display: flex;
+    justify-content: center;
+}
