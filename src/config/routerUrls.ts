@@ -1,10 +1,13 @@
 export const routerUrls = {
-  login: {
-    mask: '/login',
-    create: () => `/login`,
-  },
-  root: {
-    mask: "/home",
-    create: () => `/home`,
-},
+    root: {
+        mask: "/home",
+        create: () => `/home`,
+    },
+    login: {
+        mask: "/login",
+        create: () => `/login`,
+    },
+    schedule: {
+        mask: "/schedule",
+    },
 };

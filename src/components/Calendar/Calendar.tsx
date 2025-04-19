@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
 
 interface Event {
     title: string;
@@ -12,18 +11,19 @@ interface Event {
 
 interface CalendarProps {
     events: Event[];
+    gridType: "timeGridDay" | "timeGridWeek";
     onDatesChange?: (start: Date, end: Date) => void;
 }
 
 const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
-    ({ events, onDatesChange }, ref) => {
+    ({ events, gridType, onDatesChange }, ref) => {
         const isInitial = useRef(true);
 
         return (
             <FullCalendar
                 ref={ref}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView="timeGridDay"
+                plugins={[dayGridPlugin, timeGridPlugin]}
+                initialView={gridType}
                 datesSet={({ start, end }) => {
                     if (isInitial.current) {
                         isInitial.current = false;
