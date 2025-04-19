@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import Loader from "@components/Loader";
 import { routerUrls } from "@config/routerUrls";
+import SetGroup from "@components/SetGroup";
 
 import { AppDispatch, RootState } from "../../store";
 import { getCurrentUser, refresh } from "../../actions/authActions";
-import SetGroup from "@components/SetGroup";
 
 const PrivateRoute: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
