@@ -6,6 +6,7 @@ import { routerUrls } from "@config/routerUrls";
 
 import { AppDispatch, RootState } from "../../store";
 import { getCurrentUser, refresh } from "../../actions/authActions";
+import SetGroup from "@components/SetGroup";
 
 const PrivateRoute: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -48,7 +49,19 @@ const PrivateRoute: React.FC = () => {
         );
     }
 
-    return <Outlet />;
+    if (user && !user.group_id && !user.confirmed) {
+        <SetGroup/>
+    }
+
+    if (user && user.group_id && !user.group_id) {
+        <div>
+            <p>Дождись подтверждения старосты</p>
+        </div>
+    }
+
+    if (user && user.group_id && user.confirmed) {
+        return <Outlet />;
+    }    
 };
 
 export default PrivateRoute;

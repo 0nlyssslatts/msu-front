@@ -3,7 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import {login, refresh, getCurrentUser, resetError } from '../actions/authActions';
 
 interface User {
-  username: string;
+  id: number;
+  group_id: number;
+  confirmed: boolean;
+  type: string
 }
 
 interface AuthState {
