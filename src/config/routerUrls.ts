@@ -4,7 +4,10 @@ export const routerUrls = {
     create: () => `/login`,
   },
   root: {
-    mask: "/home",
+    mask: '/home',
     create: () => `/home`,
-},
+  },
+  schedule: {
+    mask: '/schedule'
+  }
 };
