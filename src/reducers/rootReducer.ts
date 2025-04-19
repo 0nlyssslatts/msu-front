@@ -1,9 +1,11 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import authReducer from './authReducer';
+import authReducer from "./authReducer";
+import scheduleReducer from "./scheduleReducer";
 
 const rootReducer = combineReducers({
-  auth: authReducer,
+    auth: authReducer,
+    schedule: scheduleReducer,
 });
 
 export default rootReducer;
