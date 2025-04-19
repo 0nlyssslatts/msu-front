@@ -41,12 +41,12 @@ const WeekPage = () => {
 
     const prevWeekHandler = () => calendar.current?.getApi().prev();
     return (
-        <section className={style.home}>
-            <div className={style.home__header}>
+        <section className={style.week}>
+            <div className={style.week__header}>
                 <h1>Главная</h1>
             </div>
-            <div className={style.home__schedule}>
-                <div className={style.home__schedule__buttons}>
+            <div className={style.week__schedule}>
+                <div className={style.week__schedule__buttons}>
                     <Button onClick={prevWeekHandler}>{"<"}</Button>
                     <Button onClick={nextWeekHandler}>{">"}</Button>
                 </div>
