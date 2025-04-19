@@ -39,7 +39,7 @@ function AppContent() {
 
 function App() {
     return (
-        <BrowserRouter basename="/">
+        <BrowserRouter>
             <AppContent />
         </BrowserRouter>
     );
