@@ -1,11 +1,12 @@
 import FullCalendar from "@fullcalendar/react";
-// import dayGridPlugin from "@fullcalendar/daygrid";
+import dayGridPlugin from "@fullcalendar/daygrid"; // Добавьте этот плагин
 import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 
 const Calendar = () => {
     return (
         <FullCalendar
-            plugins={[timeGridPlugin]}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} // Добавьте dayGridPlugin
             initialView="timeGridDay"
             themeSystem="standard"
             locale="ru"
@@ -32,8 +33,8 @@ const Calendar = () => {
                 center: "title",
                 left: "prev",
             }}
-            slotMinTime="08:00:00" // Минимальное время
-            slotMaxTime="23:59:00" // Максимальное время
+            slotMinTime="08:00:00"
+            slotMaxTime="23:59:00"
         />
     );
 };
