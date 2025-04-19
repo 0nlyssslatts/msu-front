@@ -1,12 +1,12 @@
 import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid"; // Добавьте этот плагин
+import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 const Calendar = () => {
     return (
         <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} // Добавьте dayGridPlugin
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="timeGridDay"
             themeSystem="standard"
             locale="ru"
