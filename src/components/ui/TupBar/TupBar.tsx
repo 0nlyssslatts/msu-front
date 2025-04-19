@@ -1,9 +1,10 @@
 import { routerUrls } from '@config/routerUrls';
-import styles from './TupBar.module.scss';
 import { useLocation } from 'react-router-dom';
 import { HomeIcon } from '@components/ui/icons/HomeIcon';
 import { ClockIcon } from '@components/ui/icons/ClockIcon';
 import { ProfileIcon } from '@components/ui/icons/ProfileIcon';
+
+import styles from './TupBar.module.scss';
 
 const TupBar = () => {
     const location = useLocation();

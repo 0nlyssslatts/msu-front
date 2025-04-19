@@ -3,10 +3,11 @@ import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
 import Loader from "@components/Loader";
-import { login } from "../../actions/authActions";
 import Button from "@components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import { routerUrls } from "@config/routerUrls";
+
+import { login } from "../../actions/authActions";
 
 import styles from "./LoginPage.module.scss";
 
