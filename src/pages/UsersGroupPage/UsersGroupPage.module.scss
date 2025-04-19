@@ -1,0 +1,12 @@
+@use 'styles/mixin' as *;
+
+.confirmBlock {
+    padding-top: 40px;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 75px;
+    }
+}

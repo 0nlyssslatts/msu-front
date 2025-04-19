@@ -1,0 +1,18 @@
+@use 'styles/mixin' as *;
+@use 'styles/variables' as *;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    width: 100%;
+    gap: 10px;
+}
+
+.loginPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80vh; 
+}

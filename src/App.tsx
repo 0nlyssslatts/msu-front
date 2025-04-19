@@ -1,14 +1,36 @@
-import "./App.css";
-import Button from "@components/ui/Button";
+import { Routes, Route, BrowserRouter } from "react-router";
+// import PrivateRoute from "@components/PrivateRoute";
+import RootLayout from "@components/RootLayout";
+import { routerUrls } from '@config/routerUrls';
 
-function App() {
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import UsersGroupPage from "./pages/UsersGroupPage";
+
+function AppContent() {
     return (
-        <>
-            <div>
-                <Button>Мгу крутые</Button>
-            </div>
-        </>
+        <RootLayout>
+            <Routes>
+                <Route path={routerUrls.login.mask} element={<LoginPage/>} />
+                <Route path={routerUrls.root.mask} element={<HomePage />}/>
+                <Route path={routerUrls.confirm_users.mask} element={<UsersGroupPage/>}/>
+
+                {/* <Route element={<PrivateRoute />}>
+                    <Route
+                        path={routerUrls.root}
+                        element={<HomePage />}
+                    />
+                </Route> */}
+            </Routes>
+        </RootLayout>
     );
 }
 
+function App() {
+    return (
+        <BrowserRouter>
+            <AppContent />
+        </BrowserRouter>
+    );
+}
 export default App;

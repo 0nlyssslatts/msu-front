@@ -1,15 +1,15 @@
 import Calendar from "@components/Calendar";
-import { useRef, useMemo, useCallback } from "react";
+import Button from "@components/ui/Button";
+import { useCallback, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
-import { getSchedule } from "@actions/scheduleAction";
 import FullCalendar from "@fullcalendar/react";
+import { getSchedule } from "@actions/scheduleAction";
 import { format } from "date-fns";
-import Button from "@components/ui/Button";
 
-import style from "./HomePage.module.scss";
+import style from "./WeekPage.module.scss";
 
-const HomePage = () => {
+const WeekPage = () => {
     const calendar = useRef<FullCalendar | null>(null);
     const dispatch = useDispatch<AppDispatch>();
     const { items } = useSelector((state: RootState) => state.schedule);
@@ -37,10 +37,9 @@ const HomePage = () => {
         [dispatch]
     );
 
-    const nextDayHandler = () => calendar.current?.getApi().next();
+    const nextWeekHandler = () => calendar.current?.getApi().next();
 
-    const prevDayHandler = () => calendar.current?.getApi().prev();
-
+    const prevWeekHandler = () => calendar.current?.getApi().prev();
     return (
         <section className={style.home}>
             <div className={style.home__header}>
@@ -48,18 +47,17 @@ const HomePage = () => {
             </div>
             <div className={style.home__schedule}>
                 <div className={style.home__schedule__buttons}>
-                    <Button onClick={prevDayHandler}>{"<"}</Button>
-                    <Button onClick={nextDayHandler}>{">"}</Button>
+                    <Button onClick={prevWeekHandler}>{"<"}</Button>
+                    <Button onClick={nextWeekHandler}>{">"}</Button>
                 </div>
                 <Calendar
                     ref={calendar}
                     events={events}
                     onDatesChange={handleDatesChange}
-                    gridType="timeGridDay"
+                    gridType="timeGridWeek"
                 />
             </div>
         </section>
     );
 };
-
-export default HomePage;
+export default WeekPage;
