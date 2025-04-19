@@ -3,10 +3,11 @@ import { useRef, useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
 import { getSchedule } from "@actions/scheduleAction";
-import style from "./HomePage.module.scss";
 import FullCalendar from "@fullcalendar/react";
 import { format } from "date-fns";
 import Button from "@components/ui/Button";
+
+import style from "./HomePage.module.scss";
 
 const HomePage = () => {
     const calendar = useRef<FullCalendar | null>(null);
