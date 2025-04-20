@@ -78,17 +78,17 @@ const AddTaskForm = () => {
                 <label htmlFor="description">Описание:</label>
                 <textarea id="description" name="description"></textarea>
             </div>
-            <div>
-                <label className="switch-label">
-                    <input
-                        type="checkbox"
-                        name="mode"
-                        checked={isDay}
-                        onChange={() => setISDay((prev) => !prev)}
-                    />
-                    <span className="slider round"></span>
+            <div className={style.checkIsDay}>
+                <label htmlFor="mode">
                     <span>Весь день</span>
                 </label>
+                <input
+                    type="checkbox"
+                    name="mode"
+                    id="mode"
+                    checked={isDay}
+                    onChange={() => setISDay((prev) => !prev)}
+                />
             </div>
             {isDay ? (
                 <div>

@@ -20,7 +20,6 @@
 .form label {
     display: block;
     font-weight: bold;
-    margin-bottom: 4px;
     color: #555;
 }
 
@@ -28,8 +27,7 @@
 .form select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid $secondary !important;
     transition: border-color 0.3s ease-in-out;
     outline: none;
 }
@@ -51,4 +49,86 @@
 .form select option {
     color: black;
     background-color: white;
+}
+
+.checkIsDay {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.checkIsDay {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.checkIsDay {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.checkIsDay input[type="checkbox"] {
+    appearance: none; /* Скрываем стандартный чекбокс */
+    width: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.checkIsDay input[type="checkbox"]:checked {
+    background-color: $purple-main; /* Меняет цвет фона при активации */
+}
+
+.checkIsDay {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.checkIsDay input[type="checkbox"] {
+    appearance: none; /* Скрываем стандартный чекбокс */
+    width: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 8px;
+    transition: background-color 0.3s ease;
+    position: relative; /* Необходимость для расположения галочки */
+}
+
+.checkIsDay input[type="checkbox"]:checked {
+    background-color: $purple-main; /* Меняет цвет фона при активации */
+}
+
+.checkIsDay input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    left: 7px;
+    top: 3px;
+} /* Галочка появляется при check */
+
+.checkIsDay input[type="checkbox"]:active {
+    background-color: $purple-main; /* Немного темнее при нажатии */
+}
+.checkIsDay input[type="checkbox"]:hover {
+    border-color: $purple-main; /* Изменение рамки при наведении */
+}
+
+.checkIsDay label {
+    cursor: pointer;
+}
+
+.checkIsDay span {
+    vertical-align: middle;
 }
