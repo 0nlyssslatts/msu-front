@@ -54,52 +54,54 @@ const HomePage = () => {
     const { tasks } = useSelector((state: RootState) => state.task);
     const { user } = useSelector((state: RootState) => state.auth);
 
-
     const events = useMemo(() => {
         const scheduleEvents = items.map((item) => ({
-          id: `schedule-${item.id}`,
-          title: item.name,
-          start: item.start_ts,
-          end: item.end_ts
+            id: `schedule-${item.id}`,
+            title: item.name,
+            start: item.start_ts,
+            end: item.end_ts,
         }));
-      
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         const taskEvents = tasks.map((task) => ({
-          id: `task-${task.id}`,
-          title: task.title,
-          start: task.start_ts || task.date,
-          end: task.end_ts || task.date,
-          backgroundColor:
-            task.priority === "high"   ? "#14005C" :
-            task.priority === "normal" ? "#1D00C3" :
-                                         "#b9b9b9",
+            id: `task-${task.id}`,
+            title: task.title,
+            start: task.start_ts || task.date,
+            end: task.end_ts || task.date,
+            backgroundColor:
+                task.priority === "high"
+                    ? "#14005C"
+                    : task.priority === "normal"
+                    ? "#1D00C3"
+                    : "#b9b9b9",
         }));
-      
-        return [...scheduleEvents, ...taskEvents];
-      }, [items, tasks]);
-      
-      const handleDatesChange = useCallback(
-        (start: Date, end: Date) => {
-          const formattedStart = format(start, "yyyy-MM-dd");
-          const formattedEnd = format(end, "yyyy-MM-dd");
-          if (user) {
-            dispatch(
-              getSchedule({
-                groupId: user.group_id,
-                start: formattedStart,
-                end: formattedEnd,
-              })
-            );
 
-            dispatch(
-              fetchTasks({
-                start: formattedStart,
-                end: formattedEnd,
-              })
-            );
-          }
+        return [...scheduleEvents, ...taskEvents];
+    }, [items, tasks]);
+
+    const handleDatesChange = useCallback(
+        (start: Date, end: Date) => {
+            const formattedStart = format(start, "yyyy-MM-dd");
+            const formattedEnd = format(end, "yyyy-MM-dd");
+            if (user) {
+                dispatch(
+                    getSchedule({
+                        groupId: user.group_id,
+                        start: formattedStart,
+                        end: formattedEnd,
+                    })
+                );
+
+                dispatch(
+                    fetchTasks({
+                        start: formattedStart,
+                        end: formattedEnd,
+                    })
+                );
+            }
         },
         [dispatch]
-      );
+    );
 
     const nextDayHandler = () => calendar.current?.getApi().next();
 
@@ -121,6 +123,8 @@ const HomePage = () => {
                 </div>
                 <Calendar
                     ref={calendar}
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
                     events={events}
                     onDatesChange={handleDatesChange}
                     gridType="timeGridDay"

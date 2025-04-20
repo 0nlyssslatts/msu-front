@@ -1,4 +1,4 @@
-import { addTask } from "@actions/taskActions";
+import { addTask } from "@actions/taskAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
 import { FormEvent, useState } from "react";
@@ -25,6 +25,18 @@ const AddTaskForm = () => {
                         "title"
                     ) as HTMLInputElement
                 )?.value ?? "",
+            description:
+                (
+                    event.currentTarget.elements.namedItem(
+                        "description"
+                    ) as HTMLTextAreaElement
+                )?.value ?? "",
+            date:
+                (
+                    event.currentTarget.elements.namedItem(
+                        "date"
+                    ) as HTMLTextAreaElement
+                )?.value ?? "",
             start_ts:
                 (
                     event.currentTarget.elements.namedItem(
@@ -36,12 +48,6 @@ const AddTaskForm = () => {
                     event.currentTarget.elements.namedItem(
                         "endTs"
                     ) as HTMLInputElement
-                )?.value ?? "",
-            description:
-                (
-                    event.currentTarget.elements.namedItem(
-                        "description"
-                    ) as HTMLTextAreaElement
                 )?.value ?? "",
             priority:
                 ((
