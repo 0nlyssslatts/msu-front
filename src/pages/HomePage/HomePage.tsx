@@ -10,43 +10,6 @@ import Button from "@components/ui/Button";
 import style from "./HomePage.module.scss";
 import { fetchTasks } from "@actions/taskAction";
 
-// const tasks = [
-//     {
-//       "id": 2,
-//       "title": "Лабораторная работа по физике: измерение температуры",
-//       "priority": "normal",
-//       "type": "labwork",
-//       "date": "2025-04-22",
-//       "start_ts": "2025-04-22T10:00:00",
-//       "end_ts": "2025-04-22T12:00:00"
-//     },
-//     {
-//       "id": 3,
-//       "title": "Практическая работа по программированию: создание калькулятора",
-//       "priority": "high",
-//       "type": "practicwork",
-//       "date": "2025-04-21",
-//     },
-//     {
-//       "id": 4,
-//       "title": "Прочитать главы 5-7 из учебника по химии",
-//       "priority": "low",
-//       "type": "homework",
-//       "date": null,
-//       "start_ts": null,
-//       "end_ts": null
-//     },
-//     {
-//       "id": 5,
-//       "title": "Общий тренинг по безопасности на работе",
-//       "priority": "normal",
-//       "type": "general",
-//       "date": "2025-04-23",
-//       "start_ts": "2025-04-23T09:00:00",
-//       "end_ts": "2025-04-23T17:00:00"
-//     }
-// ]
-
 const HomePage = () => {
     const calendar = useRef<FullCalendar | null>(null);
     const dispatch = useDispatch<AppDispatch>();

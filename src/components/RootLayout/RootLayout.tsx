@@ -17,7 +17,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
             <TupBar />
             {isOpen && (
                 <Modal closeModal={() => setIsOpen(false)}>
-                    <AddTaskForm />
+                    <AddTaskForm closeForm={() => setIsOpen(false)} />
                 </Modal>
             )}
             <Button

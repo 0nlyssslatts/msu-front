@@ -1,9 +1,9 @@
 .modalOverlay {
     background-color: rgba(0, 0, 0, 0.5); /* полупрозрачный фон */
     z-index: 1000;
-  }
-  
-  .modalContent {
+}
+
+.modalContent {
     width: 400px;
     margin: auto;
     padding: 20px;
@@ -11,20 +11,20 @@
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-  }
-  
-  .modalTitle {
+}
+
+.modalTitle {
     color: #333;
-  }
-  
-  .modalButton {
+}
+
+.modalButton {
     margin-top: 20px;
     padding: 10px 20px;
-  }
+}
 
-  .modalHeader {
+.modalHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
-  }
+}

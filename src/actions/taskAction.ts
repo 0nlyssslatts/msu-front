@@ -129,3 +129,34 @@ export const addTask = createAsyncThunk<
         );
     }
 });
+
+export const doneTask = createAsyncThunk(
+    "task/done",
+    async (taskId: number, { rejectWithValue }) => {
+        try {
+            const accessToken = localStorage.getItem("access_token");
+
+            if (!accessToken) {
+                return rejectWithValue("Токен отсутствует");
+            }
+            const response = await axios.get(
+                `https://backend.where-pizza.ru/api/tasks/${taskId}/status`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            return response.data;
+        } catch (err) {
+            const error = err as AxiosError<{ detail?: string }>;
+            if (error.response) {
+                return rejectWithValue(
+                    error.response.data.detail || error.response.data
+                );
+            }
+            return rejectWithValue(error.message);
+        }
+    }
+);

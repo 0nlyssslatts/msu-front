@@ -10,7 +10,7 @@ import style from "./AddTaskForm.module.scss";
 type TaskType = "homework" | "labwork" | "practicwork" | "general";
 type PriorityType = "low" | "normal" | "high";
 
-const AddTaskForm = () => {
+const AddTaskForm = ({ closeForm }: { closeForm: () => void }) => {
     const [isDay, setISDay] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const loading = useSelector((state: RootState) => state.task.loading);
@@ -64,6 +64,7 @@ const AddTaskForm = () => {
         };
         try {
             await dispatch(addTask(newTask));
+            closeForm();
         } catch (err) {
             if (err instanceof Error) {
                 console.error(err.message);

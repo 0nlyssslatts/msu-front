@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from "src/store";
 import styles from "./Calendar.module.scss";
 import { fetchTaskDetails, fetchTasks } from "@actions/taskAction";
 import Loader from "@components/Loader";
+import Button from "@components/ui/Button";
 
 interface Event {
     type: string;
@@ -75,6 +76,9 @@ const TaskModalContent: React.FC<{ task; onClose: () => void }> = ({
                 <strong>ID события:</strong> {task.event_id ?? "—"}
             </p>
         </div>
+        <Button style={{ width: "100%", marginTop: "150px" }}>
+            Закрыть задачу
+        </Button>
     </>
 );
 
