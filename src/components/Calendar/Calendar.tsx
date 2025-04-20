@@ -26,8 +26,6 @@ interface CalendarProps {
 }
 
 // Модальное окно для задач
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 const TaskModalContent: React.FC<{ task; onClose: () => void }> = ({
     task,
     onClose,
@@ -76,50 +74,61 @@ const TaskModalContent: React.FC<{ task; onClose: () => void }> = ({
                 <strong>ID события:</strong> {task.event_id ?? "—"}
             </p>
         </div>
-        <Button style={{ width: "100%", marginTop: "150px" }}>
-            Закрыть задачу
-        </Button>
     </>
 );
 
-// Модальное окно для расписания
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// Модальное окно для расписания с возможностью показать/скрыть описание
 const ScheduleModalContent: React.FC<{
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     tasks;
     event: Event;
     onClose: () => void;
-}> = ({ tasks, event, onClose }) => (
-    <>
-        <div className={styles.modalHeader}>
-            <h2 className={styles.modalTitle}>
-                Расписание события: {event.title}
-            </h2>
-            <button onClick={onClose} className={styles.closeButton}>
-                ×
-            </button>
-        </div>
-        <div className={styles.modalBody}>
-            {tasks.length === 0 ? (
-                <p>Ничего не найдено.</p>
-            ) : (
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                tasks.map((task) => (
-                    <div key={task.id} className={styles.taskItem}>
-                        <p>
-                            <strong>{task.title}</strong>
-                        </p>
-                        <p>{task.description}</p>
-                        <hr />
-                    </div>
-                ))
-            )}
-        </div>
-    </>
-);
+}> = ({ tasks, event, onClose }) => {
+    const [openIds, setOpenIds] = useState<number[]>([]);
+    const toggleDescription = (id: number) => {
+        setOpenIds((prev) =>
+            prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
+        );
+    };
+
+    return (
+        <>
+            <div className={styles.modalHeader}>
+                <h2 className={styles.modalTitle}>
+                    Расписание события: {event.title}
+                </h2>
+                <button onClick={onClose} className={styles.closeButton}>
+                    ×
+                </button>
+            </div>
+            <div className={styles.modalBody}>
+                {tasks.length === 0 ? (
+                    <p>Ничего не найдено.</p>
+                ) : (
+                    tasks.map((task) => (
+                        <div key={task.id} className={styles.taskItem}>
+                            <p>
+                                <strong>{task.title}</strong>
+                            </p>
+                            <button
+                                type="button"
+                                onClick={() => toggleDescription(task.id)}
+                                className={styles.toggleButton}
+                            >
+                                {openIds.includes(task.id)
+                                    ? "Скрыть описание"
+                                    : "Показать описание"}
+                            </button>
+                            {openIds.includes(task.id) && (
+                                <p>{task.description}</p>
+                            )}
+                            <hr />
+                        </div>
+                    ))
+                )}
+            </div>
+        </>
+    );
+};
 
 // Модальное окно по умолчанию
 const DefaultModalContent: React.FC<{ event: Event; onClose: () => void }> = ({
@@ -162,7 +171,6 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
             (state: RootState) => state.task
         );
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handleEventClick = (info: any) => {
             const [type, event_id] = info.event.id.split("-");
             const event: Event = {
@@ -174,12 +182,8 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
             };
 
             setSelectedEvent(event);
-            if (type === "task") {
-                dispatch(fetchTaskDetails(event_id));
-            }
-            if (type === "schedule") {
-                dispatch(fetchTasks({ event_id }));
-            }
+            if (type === "task") dispatch(fetchTaskDetails(event_id));
+            if (type === "schedule") dispatch(fetchTasks({ event_id }));
             setIsModalOpen(true);
         };
 
@@ -233,7 +237,6 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
                         }
                         onDatesChange?.(start, end);
                     }}
-                    initialDate={new Date()}
                     themeSystem="standard"
                     allDayText="День"
                     locale="ru"
@@ -247,7 +250,6 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
                     headerToolbar={{ center: "title", left: "", right: "" }}
                     slotMinTime="08:00:00"
                     slotMaxTime="23:59:00"
-                    firstDay={1}
                     eventClick={handleEventClick}
                 />
 
@@ -262,7 +264,7 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
                         },
                         content: {
                             margin: "auto",
-                            height: "50%",
+                            height: "auto",
                             padding: "20px",
                             borderRadius: "8px",
                             backgroundColor: "#fff",
