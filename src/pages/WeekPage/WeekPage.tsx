@@ -58,7 +58,7 @@ const WeekPage = () => {
     return (
         <section className={style.week}>
             <div className={style.week__header}>
-                <h1>Главная</h1>
+                <h1>Расписание</h1>
             </div>
             <div className={style.week__schedule}>
                 <div className={style.week__schedule__buttons}>

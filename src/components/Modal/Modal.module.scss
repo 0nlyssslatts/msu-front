@@ -1,0 +1,44 @@
+.modal_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+}
+
+.modal {
+    width: 360px;
+    height: fit-content;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3000;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow-y: auto; /* если нужен скроллинг */
+    position: relative; /* добавляем положение relative */
+}
+
+.close {
+    position: absolute; /* делаем кнопку абсолютной */
+    top: 10px;
+    right: 10px; /* располагается справа сверху */
+    z-index: 5000;
+    cursor: pointer;
+    user-select: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #aaa;
+    transition: color 0.2s ease;
+    background: transparent;
+    border: none;
+    padding: 5px;
+}
+
+.close:hover {
+    color: #ff5c5c; /* Цвет кнопки при наведении */
+}
