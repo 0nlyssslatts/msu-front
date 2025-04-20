@@ -49,8 +49,6 @@ const PrivateRoute: React.FC = () => {
         );
     }
 
-    console.log(user);
-
     if (user && user.group_id === null && user.confirmed === false) {
         return <SetGroup/>
     }

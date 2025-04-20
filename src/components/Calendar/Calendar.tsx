@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
 
 import styles from './Calendar.module.scss';
-import { fetchTaskDetails } from "@actions/taskAction";
-import { Task } from "src/reducers/taskReducer";
+import { fetchTaskDetails, fetchTasks } from "@actions/taskAction";
+import Loader from "@components/Loader";
 
 interface Event {
   type: string;
@@ -24,31 +24,51 @@ interface CalendarProps {
   onDatesChange?: (start: Date, end: Date) => void;
 }
 
-const TaskModalContent: React.FC<{ task: Task | null; onClose: () => void }> = ({ task, onClose }) => {
-  if (!task) return <p>Загрузка...</p>;
+// Модальное окно для задач
+const TaskModalContent: React.FC<{ task; onClose: () => void }> = ({ task, onClose }) => (
+  <>
+    <div className={styles.modalHeader}>
+      <h2 className={styles.modalTitle}>Информация о задаче</h2>
+      <button onClick={onClose} className={styles.closeButton}>×</button>
+    </div>
+    <div className={styles.modalBody}>
+      <p><strong>Название:</strong> {task.title}</p>
+      <p><strong>Описание:</strong> {task.description || "—"}</p>
+      <p><strong>Приоритет:</strong> {task.priority}</p>
+      {task.date && <p><strong>Дата:</strong> {task.date}</p>}
+      {task.start_ts && <p><strong>Начало:</strong> {new Date(task.start_ts).toLocaleString()}</p>}
+      {task.end_ts && <p><strong>Окончание:</strong> {new Date(task.end_ts).toLocaleString()}</p>}
+      <p><strong>Завершена:</strong> {task.completed ? "Да" : "Нет"}</p>
+      <p><strong>Для группы:</strong> {task.for_group ? "Да" : "Нет"}</p>
+      <p><strong>ID события:</strong> {task.event_id ?? "—"}</p>
+    </div>
+  </>
+);
 
-  return (
-    <>
-      <div className={styles.modalHeader}>
-        <h2 className={styles.modalTitle}>Информация о задаче</h2>
-        <button onClick={onClose} className={styles.closeButton}>×</button>
-      </div>
-      <div className={styles.modalBody}>
-        <p><strong>Название:</strong> {task.title}</p>
-        <p><strong>Описание:</strong> {task.description || "—"}</p>
-        <p><strong>Приоритет:</strong> {task.priority}</p>
-        <p><strong>Тип:</strong> {task.type}</p>
-        <p><strong>Дата:</strong> {task.date || "—"}</p>
-        <p><strong>Начало:</strong> {task.start_ts ? new Date(task.start_ts).toLocaleString() : "—"}</p>
-        <p><strong>Окончание:</strong> {task.end_ts ? new Date(task.end_ts).toLocaleString() : "—"}</p>
-        <p><strong>Завершена:</strong> {task.completed ? "Да" : "Нет"}</p>
-        <p><strong>Для группы:</strong> {task.for_group ? "Да" : "Нет"}</p>
-        <p><strong>ID события:</strong> {task.event_id ?? "—"}</p>
-      </div>
-    </>
-  );
-};
+// Модальное окно для расписания
+const ScheduleModalContent: React.FC<{ tasks; event: Event; onClose: () => void }> = ({ tasks, event, onClose }) => (
+  <>
+    <div className={styles.modalHeader}>
+      <h2 className={styles.modalTitle}>Расписание события: {event.title}</h2>
+      <button onClick={onClose} className={styles.closeButton}>×</button>
+    </div>
+    <div className={styles.modalBody}>
+      {tasks.length === 0 ? (
+        <p>Ничего не найдено.</p>
+      ) : (
+        tasks.map((task) => (
+          <div key={task.id} className={styles.taskItem}>
+            <p><strong>{task.title}</strong></p>
+            <p>{task.description}</p>
+            <hr />
+          </div>
+        ))
+      )}
+    </div>
+  </>
+);
 
+// Модальное окно по умолчанию
 const DefaultModalContent: React.FC<{ event: Event; onClose: () => void }> = ({ event, onClose }) => (
   <>
     <div className={styles.modalHeader}>
@@ -70,7 +90,7 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const dispatch = useDispatch<AppDispatch>();
-    const selectedTask = useSelector((state: RootState) => state.task.selectedTask);
+    const { selectedTask, tasks, loading, error } = useSelector((state: RootState) => state.task);
 
     const handleEventClick = (info: any) => {
       const [type, event_id] = info.event.id.split("-");
@@ -81,26 +101,33 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
         start: info.event.start.toISOString(),
         end: info.event.end?.toISOString() || "",
       };
-    
+
       setSelectedEvent(event);
-      setIsModalOpen(true);
-    
       if (type === "task") {
         dispatch(fetchTaskDetails(event_id));
       }
+      if (type === "schedule") {
+        dispatch(fetchTasks({ event_id }));
+      }
+      setIsModalOpen(true);
     };
 
     const closeModal = () => {
       setIsModalOpen(false);
       setSelectedEvent(null);
-      // dispatch(clearSelectedTask());
     };
 
     const renderModalContent = () => {
       if (!selectedEvent) return null;
       switch (selectedEvent.type) {
         case 'task':
-          return <TaskModalContent event={selectedTask} onClose={closeModal} />;
+          if (loading) return <Loader />;
+          if (!selectedTask) return <p>Задача не найдена</p>;
+          return <TaskModalContent task={selectedTask} onClose={closeModal} />;
+        case 'schedule':
+          if (loading) return <Loader />;
+          if (error) return <p style={{ color: 'red' }}>{error}</p>;
+          return <ScheduleModalContent tasks={tasks} event={selectedEvent} onClose={closeModal} />;
         default:
           return <DefaultModalContent event={selectedEvent} onClose={closeModal} />;
       }

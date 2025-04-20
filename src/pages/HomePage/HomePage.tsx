@@ -52,6 +52,7 @@ const HomePage = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { items } = useSelector((state: RootState) => state.schedule);
     const { tasks } = useSelector((state: RootState) => state.task);
+    const { user } = useSelector((state: RootState) => state.auth);
 
 
     const events = useMemo(() => {
@@ -80,21 +81,22 @@ const HomePage = () => {
         (start: Date, end: Date) => {
           const formattedStart = format(start, "yyyy-MM-dd");
           const formattedEnd = format(end, "yyyy-MM-dd");
-      
-          dispatch(
-            getSchedule({
-              groupId: 1,
-              start: formattedStart,
-              end: formattedEnd,
-            })
-          );
-      
-          dispatch(
-            fetchTasks({
-              start: formattedStart,
-              end: formattedEnd,
-            })
-          );
+          if (user) {
+            dispatch(
+              getSchedule({
+                groupId: user.group_id,
+                start: formattedStart,
+                end: formattedEnd,
+              })
+            );
+
+            dispatch(
+              fetchTasks({
+                start: formattedStart,
+                end: formattedEnd,
+              })
+            );
+          }
         },
         [dispatch]
       );

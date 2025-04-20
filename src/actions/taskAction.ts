@@ -3,8 +3,8 @@ import axios, { AxiosError } from "axios";
 import { apiRoutes } from "@config/apiRoutes";
 
 interface FetchTasksParams {
-  start: string;
-  end: string;
+  start?: string;
+  end?: string;
   event_id?: number;
 }
 
@@ -35,7 +35,17 @@ export const fetchTaskDetails = createAsyncThunk(
   'task/fetchDetails',
   async (taskId: number, { rejectWithValue }) => {
     try {
-      const response = await axios.get(apiRoutes.task_detail(taskId));
+      const accessToken = localStorage.getItem("access_token");
+
+      if (!accessToken) {
+        return rejectWithValue("Токен отсутствует");
+      }
+      const response = await axios.get(apiRoutes.task_detail(taskId), {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
       return response.data;
     } catch (err) {
       const error = err as AxiosError<{ detail?: string }>;
