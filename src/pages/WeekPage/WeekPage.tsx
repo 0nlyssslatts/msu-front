@@ -4,7 +4,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
 import FullCalendar from "@fullcalendar/react";
-import { getSchedule } from "@actions/scheduleAction";
+import { getSchedule } from "@actions/scheduleActions";
 import { endOfWeek, format, startOfWeek } from "date-fns";
 
 import style from "./WeekPage.module.scss";

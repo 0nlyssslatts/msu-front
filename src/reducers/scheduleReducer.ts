@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getSchedule } from "../actions/scheduleAction";
+import { getSchedule } from "../actions/scheduleActions";
 
 interface Room {
     id: number;

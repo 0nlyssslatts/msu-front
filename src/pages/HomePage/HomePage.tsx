@@ -2,7 +2,7 @@ import Calendar from "@components/Calendar";
 import { useRef, useMemo, useCallback, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
-import { getSchedule } from "@actions/scheduleAction";
+import { getSchedule } from "@actions/scheduleActions";
 import FullCalendar from "@fullcalendar/react";
 import { addDays, format } from "date-fns";
 import Button from "@components/ui/Button";
