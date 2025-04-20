@@ -67,6 +67,8 @@ const WeekPage = () => {
                 </div>
                 <Calendar
                     ref={calendar}
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
                     events={events}
                     onDatesChange={handleDatesChange}
                     gridType="timeGridWeek"
