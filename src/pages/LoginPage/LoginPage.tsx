@@ -10,6 +10,7 @@ import { routerUrls } from "@config/routerUrls";
 import { login } from "../../actions/authActions";
 
 import styles from "./LoginPage.module.scss";
+import { logout } from "../../reducers/authReducer";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -36,6 +37,11 @@ const LoginPage = () => {
         dispatch(login({ token }));
     };
 
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate(routerUrls.login.mask);
+    };
+
     return (
         <div className={styles.loginPage}>
             <h1 className={styles.bold28}>Вход</h1>
@@ -44,6 +50,10 @@ const LoginPage = () => {
                 <Input value={token} onChange={setToken}></Input>
                 <Button type="submit">Войти</Button>
                 {error && <p style={{ color: "red" }}>{error}</p>}
+                <br/>
+                <Button onClick={handleLogout}>
+                    Выйти
+                </Button>
             </form>
         </div>
     );

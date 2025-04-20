@@ -12,8 +12,12 @@ type PriorityType = "low" | "normal" | "high";
 
 const AddTaskForm = () => {
     const [isDay, setISDay] = useState(false);
+    const [forGroup, setForGroup] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const loading = useSelector((state: RootState) => state.task.loading);
+    const { user } = useSelector(
+        (state: RootState) => state.auth
+    );
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -96,6 +100,18 @@ const AddTaskForm = () => {
                     onChange={() => setISDay((prev) => !prev)}
                 />
             </div>
+            {user?.type == 'elder' && <div className={style.checkIsDay}>
+                <label htmlFor="forGroup">
+                    <span>Для группы</span>
+                </label>
+                <input
+                    type="checkbox"
+                    name="forGroup"
+                    id="forGroup"
+                    checked={forGroup}
+                    onChange={() => setForGroup(prev => !prev)}
+                />
+            </div>}
             {isDay ? (
                 <div>
                     <label htmlFor="date">День:</label>
