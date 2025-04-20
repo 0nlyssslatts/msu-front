@@ -11,5 +11,6 @@ export const apiRoutes = {
     schedule: createApiRouteSchedule("/"),
     setGroup: createApiRoute('/users/set_group'),
     confirmUser: createApiRoute('/users/confirm'),
-    myGroup: createApiRoute('users/my_group')
+    myGroup: createApiRoute('users/my_group'),
+    tasks: createApiRoute('tasks')
 };
