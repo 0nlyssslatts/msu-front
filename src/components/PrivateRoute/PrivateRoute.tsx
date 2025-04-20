@@ -49,14 +49,16 @@ const PrivateRoute: React.FC = () => {
         );
     }
 
-    if (user && !user.group_id && !user.confirmed) {
-        <SetGroup/>
+    console.log(user);
+
+    if (user && user.group_id === null && user.confirmed === false) {
+        return <SetGroup/>
     }
 
-    if (user && user.group_id && !user.group_id) {
-        <div>
+    if (user && user.group_id && user.confirmed === false) {
+        return (<div>
             <p>Дождись подтверждения старосты</p>
-        </div>
+        </div>)
     }
 
     if (user && user.group_id && user.confirmed) {

@@ -10,13 +10,19 @@ export const setGroup = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
+      const accessToken = localStorage.getItem("access_token");
+
+      if (!accessToken) {
+        return rejectWithValue("Токен отсутствует");
+      }
       const response = await axios.post(
         apiRoutes.setGroup,
         { group_number: payload.group_number },
         {
           headers: {
             "Content-Type": "application/json",
-          },
+            Authorization: `Bearer ${accessToken}`,
+        },
         }
       );
 
@@ -43,10 +49,18 @@ export const confirmUser = createAsyncThunk(
       { rejectWithValue }
     ) => {
       try {
+        const accessToken = localStorage.getItem("access_token");
+
+        if (!accessToken) {
+          return rejectWithValue("Токен отсутствует");
+        }
         const response = await axios.post(
           apiRoutes.confirmUser,
           { user_id: payload.user_id },
-          { headers: { "Content-Type": "application/json" } }
+          { headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        }}
         );
         return response.data;
       } catch (err) {

@@ -30,3 +30,19 @@ export const fetchTasks = createAsyncThunk(
     }
   }
 );
+
+export const fetchTaskDetails = createAsyncThunk(
+  'task/fetchDetails',
+  async (taskId: number, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(apiRoutes.task_detail(taskId));
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError<{ detail?: string }>;
+      if (error.response) {
+        return rejectWithValue(error.response.data.detail || error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);

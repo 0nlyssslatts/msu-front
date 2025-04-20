@@ -7,31 +7,20 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import UsersGroupPage from "./pages/UsersGroupPage";
 import WeekPage from "./pages/WeekPage";
+import PrivateRoute from "@components/PrivateRoute";
 
 function AppContent() {
     return (
         <RootLayout>
             <Routes>
-                <Route path={routerUrls.root.mask} element={<HomePage />} />
                 <Route path={routerUrls.login.mask} element={<LoginPage />} />
-                <Route
-                    path={routerUrls.confirm_users.mask}
-                    element={<UsersGroupPage />}
-                />
-                <Route path={routerUrls.schedule.mask} element={<WeekPage />} />
-
-                <Route
-                    path="*"
-                    element={
-                        <Navigate to={routerUrls.root.mask} replace={true} />
-                    }
-                />
-                {/* <Route element={<PrivateRoute />}>
-                    <Route
-                        path={routerUrls.root}
-                        element={<HomePage />}
-                    />
-                </Route> */}
+                <Route element={<PrivateRoute />}>
+                    <Route path={routerUrls.root.mask} element={<HomePage />} />
+                    <Route path={routerUrls.confirm_users.mask} element={<UsersGroupPage />} />
+                    <Route path={routerUrls.schedule.mask} element={<WeekPage />} />
+                    {/* <Route path="*" element={<Navigate to={routerUrls.root.mask} replace={true} />}
+                /> */}
+                </Route>
             </Routes>
         </RootLayout>
     );

@@ -3,35 +3,107 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import Modal from "react-modal";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "src/store";
 
 import styles from './Calendar.module.scss';
-import Button from "@components/ui/Button";
+import { fetchTaskDetails } from "@actions/taskAction";
+import { Task } from "src/reducers/taskReducer";
 
 interface Event {
-    title: string;
-    start: string;
-    end: string;
+  type: string;
+  event_id: string;
+  title: string;
+  start: string;
+  end: string;
 }
 
 interface CalendarProps {
-    events: Event[];
-    gridType: "timeGridDay" | "timeGridWeek";
-    onDatesChange?: (start: Date, end: Date) => void;
+  events: Event[];
+  gridType: "timeGridDay" | "timeGridWeek";
+  onDatesChange?: (start: Date, end: Date) => void;
 }
+
+const TaskModalContent: React.FC<{ task: Task | null; onClose: () => void }> = ({ task, onClose }) => {
+  if (!task) return <p>Загрузка...</p>;
+
+  return (
+    <>
+      <div className={styles.modalHeader}>
+        <h2 className={styles.modalTitle}>Информация о задаче</h2>
+        <button onClick={onClose} className={styles.closeButton}>×</button>
+      </div>
+      <div className={styles.modalBody}>
+        <p><strong>Название:</strong> {task.title}</p>
+        <p><strong>Описание:</strong> {task.description || "—"}</p>
+        <p><strong>Приоритет:</strong> {task.priority}</p>
+        <p><strong>Тип:</strong> {task.type}</p>
+        <p><strong>Дата:</strong> {task.date || "—"}</p>
+        <p><strong>Начало:</strong> {task.start_ts ? new Date(task.start_ts).toLocaleString() : "—"}</p>
+        <p><strong>Окончание:</strong> {task.end_ts ? new Date(task.end_ts).toLocaleString() : "—"}</p>
+        <p><strong>Завершена:</strong> {task.completed ? "Да" : "Нет"}</p>
+        <p><strong>Для группы:</strong> {task.for_group ? "Да" : "Нет"}</p>
+        <p><strong>ID события:</strong> {task.event_id ?? "—"}</p>
+      </div>
+    </>
+  );
+};
+
+const DefaultModalContent: React.FC<{ event: Event; onClose: () => void }> = ({ event, onClose }) => (
+  <>
+    <div className={styles.modalHeader}>
+      <h2 className={styles.modalTitle}>Событие</h2>
+      <button onClick={onClose} className={styles.closeButton}>×</button>
+    </div>
+    <div className={styles.modalBody}>
+      <p><strong>Название:</strong> {event.title}</p>
+      <p><strong>Тип:</strong> {event.type}</p>
+      <p><strong>Начало:</strong> {new Date(event.start).toLocaleString()}</p>
+      <p><strong>Окончание:</strong> {new Date(event.end).toLocaleString()}</p>
+    </div>
+  </>
+);
 
 const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
   ({ events, gridType, onDatesChange }, ref) => {
     const isInitial = useRef(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null); 
+    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const dispatch = useDispatch<AppDispatch>();
+    const selectedTask = useSelector((state: RootState) => state.task.selectedTask);
 
     const handleEventClick = (info: any) => {
-      setSelectedEvent({
+      const [type, event_id] = info.event.id.split("-");
+      const event: Event = {
+        type,
+        event_id,
         title: info.event.title,
         start: info.event.start.toISOString(),
         end: info.event.end?.toISOString() || "",
-      });
-      setIsModalOpen(true); 
+      };
+    
+      setSelectedEvent(event);
+      setIsModalOpen(true);
+    
+      if (type === "task") {
+        dispatch(fetchTaskDetails(event_id));
+      }
+    };
+
+    const closeModal = () => {
+      setIsModalOpen(false);
+      setSelectedEvent(null);
+      // dispatch(clearSelectedTask());
+    };
+
+    const renderModalContent = () => {
+      if (!selectedEvent) return null;
+      switch (selectedEvent.type) {
+        case 'task':
+          return <TaskModalContent event={selectedTask} onClose={closeModal} />;
+        default:
+          return <DefaultModalContent event={selectedEvent} onClose={closeModal} />;
+      }
     };
 
     return (
@@ -50,11 +122,7 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
           themeSystem="standard"
           allDayText="День"
           locale="ru"
-          slotLabelFormat={{
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          }}
+          slotLabelFormat={{ hour: '2-digit', minute: '2-digit', hour12: false }}
           events={events}
           height="85vh"
           headerToolbar={{ center: "title", left: "", right: "" }}
@@ -65,38 +133,14 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
 
         <Modal
           isOpen={isModalOpen}
-          onRequestClose={() => setIsModalOpen(false)}
+          onRequestClose={closeModal}
           contentLabel="Event Details"
           style={{
-            overlay: {
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              zIndex: 1000,
-            },
-            content: {
-              margin: "auto",
-              height: "50%",
-              padding: "20px",
-              borderRadius: "8px",
-              backgroundColor: "#fff",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            },
+            overlay: { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000 },
+            content: { margin: "auto", height: "50%", padding: "20px", borderRadius: "8px", backgroundColor: "#fff", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }
           }}
-        >  
-        <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Информация о задаче</h2>
-          <span onClick={() => setIsModalOpen(false)}>
-          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 50 50">
-            <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
-            </svg>
-          </span>
-          </div>
-          {selectedEvent && (
-            <div>
-              <p><strong>Название:</strong> {selectedEvent.title}</p>
-              <p><strong>Дата начала:</strong> {new Date(selectedEvent.start).toLocaleString()}</p>
-              <p><strong>Дата окончания:</strong> {new Date(selectedEvent.end).toLocaleString()}</p>
-            </div>
-          )}
+        >
+          {renderModalContent()}
         </Modal>
       </div>
     );
