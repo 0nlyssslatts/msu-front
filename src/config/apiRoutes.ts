@@ -10,7 +10,8 @@ export const apiRoutes = {
     refresh: createApiRoute("/auth/refresh"),
     schedule: createApiRouteSchedule("/"),
     setGroup: createApiRoute("/users/set_group"),
-    confirmUser: createApiRoute("/users/confirm"),
-    myGroup: createApiRoute("users/my_group"),
     tasks: createApiRoute("/tasks"),
+    confirmUser: createApiRoute('/elder/confirm'),
+    myGroup: createApiRoute('/elder/my_group'),
+    task_detail: (id: number) => createApiRoute(`/tasks/${id}`),
 };

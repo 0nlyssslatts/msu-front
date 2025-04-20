@@ -9,6 +9,7 @@ export const login = createAsyncThunk(
             const response = await axios.post(apiRoutes.login, userData, {
                 headers: {
                     "Content-Type": "application/json",
+                    "accept": "application/json"
                 },
             });
             return response.data;

@@ -2,6 +2,22 @@
 @use "./styles/variables.scss" as *;
 @use "./styles/Roboto/fonts.scss";
 
+:root {
+  /* фоновая палитра тулбара */
+  --fc-toolbar-bg-color: #cacaca;
+  /* цвет текста в заголовках столбцов */
+  --fc-col-header-text-color: black;
+  /* фон текущего дня */
+  --fc-today-bg-color: #cacaca;
+  /* цвет линии «сейчас» */
+  --fc-now-indicator-color: #e74c3c;
+  /* цвета событий */
+  --fc-event-bg-color: #9747FF;
+  --fc-event-text-color: #fff;
+  --fc-event-border-color: #9747FF;
+}
+
+
 body {
   margin: 0px;
   padding: 0px;
