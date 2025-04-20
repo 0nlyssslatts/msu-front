@@ -82,6 +82,8 @@ const TaskModalContent: React.FC<{ task; onClose: () => void }> = ({
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const ScheduleModalContent: React.FC<{
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     tasks;
     event: Event;
     onClose: () => void;
@@ -155,8 +157,8 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
         const { selectedTask, tasks, loading, error } = useSelector(
             (state: RootState) => state.task
         );
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handleEventClick = (info: any) => {
             const [type, event_id] = info.event.id.split("-");
             const event: Event = {
