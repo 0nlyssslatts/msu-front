@@ -21,12 +21,7 @@
 
   transition: background-color 0.3s;
 
-
-  &:hover:not(:disabled):not(.loading) {
-    background-color: $brand-hower;
-  }
-
-  &:active:not(:disabled) {
+  &:active {
     background-color: $brand-active;
   }
 

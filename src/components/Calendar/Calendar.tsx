@@ -32,9 +32,15 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
                     onDatesChange?.(start, end);
                 }}
                 themeSystem="standard"
+                allDayText="День"
                 locale="ru"
+                slotLabelFormat={{
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  }}
                 events={events}
-                height={700}
+                height="85vh"
                 headerToolbar={{ center: "title", left: "", right: "" }}
                 slotMinTime="08:00:00"
                 slotMaxTime="23:59:00"
