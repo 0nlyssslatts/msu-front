@@ -24,6 +24,7 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
                 ref={ref}
                 plugins={[dayGridPlugin, timeGridPlugin]}
                 initialView={gridType}
+                initialDate={new Date()}
                 datesSet={({ start, end }) => {
                     if (isInitial.current) {
                         isInitial.current = false;
@@ -38,6 +39,7 @@ const Calendar = React.forwardRef<FullCalendar, CalendarProps>(
                 headerToolbar={{ center: "title", left: "", right: "" }}
                 slotMinTime="08:00:00"
                 slotMaxTime="23:59:00"
+                firstDay={1}
             />
         );
     }

@@ -1,10 +1,10 @@
 import Calendar from "@components/Calendar";
-import { useRef, useMemo, useCallback } from "react";
+import { useRef, useMemo, useCallback, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
 import { getSchedule } from "@actions/scheduleAction";
 import FullCalendar from "@fullcalendar/react";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import Button from "@components/ui/Button";
 
 import style from "./HomePage.module.scss";
@@ -40,6 +40,10 @@ const HomePage = () => {
     const nextDayHandler = () => calendar.current?.getApi().next();
 
     const prevDayHandler = () => calendar.current?.getApi().prev();
+
+    useLayoutEffect(() => {
+        handleDatesChange(new Date(), addDays(new Date(), 1));
+    }, [handleDatesChange]);
 
     return (
         <section className={style.home}>

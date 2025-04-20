@@ -1,11 +1,11 @@
 import Calendar from "@components/Calendar";
 import Button from "@components/ui/Button";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
 import FullCalendar from "@fullcalendar/react";
 import { getSchedule } from "@actions/scheduleAction";
-import { format } from "date-fns";
+import { endOfWeek, format, startOfWeek } from "date-fns";
 
 import style from "./WeekPage.module.scss";
 
@@ -40,6 +40,21 @@ const WeekPage = () => {
     const nextWeekHandler = () => calendar.current?.getApi().next();
 
     const prevWeekHandler = () => calendar.current?.getApi().prev();
+
+    useLayoutEffect(() => {
+        const today = new Date();
+
+        // Получаем начало и конец текущей недели
+        const weekStart = startOfWeek(today, {
+            weekStartsOn: 1, // Неделя начинается с понедельника
+        });
+
+        const weekEnd = endOfWeek(today, {
+            weekStartsOn: 1,
+        });
+        handleDatesChange(weekStart, weekEnd);
+    }, [handleDatesChange]);
+
     return (
         <section className={style.week}>
             <div className={style.week__header}>
