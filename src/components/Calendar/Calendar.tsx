@@ -5,11 +5,11 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "src/store";
-
-import styles from "./Calendar.module.scss";
 import { fetchTaskDetails, fetchTasks } from "@actions/taskAction";
 import Loader from "@components/Loader";
 import Button from "@components/ui/Button";
+
+import styles from "./Calendar.module.scss";
 
 interface Event {
     type: string;
